@@ -15,6 +15,11 @@ from scipy.misc import toimage
 
 random.seed(1)
 
+
+################################################################################################################################
+#This method was created by Mihir Mirajkar.
+#Unity ID: mmmirajk
+################################################################################################################################
 def labelled_data_dict(image_file):
 	f = open(image_file, 'r')
 	paintings_dict = {}
@@ -49,6 +54,11 @@ to_process += extras
 print to_process
 print len(to_process)
 
+
+################################################################################################################################
+#This method was created by Mihir Mirajkar.
+#Unity ID: mmmirajk
+################################################################################################################################
 def patches(file):
 	file = 'train/'+file
 
@@ -63,6 +73,11 @@ def patches(file):
 			temp = np.array(t[x:x+35, y:y+35])
 			toimage(temp).save('patches2/'+file[6:]+'_patch'+str(i)+'.jpg')
 
+
+################################################################################################################################
+#This method was created by Mihir Mirajkar.
+#Unity ID: mmmirajk
+################################################################################################################################
 def main():
 	new_ds = []
 	thread_count = 50

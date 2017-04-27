@@ -24,6 +24,11 @@ patch_dim = 35
  
 print model.shape
 
+################################################################################################################################
+#This method was created by Piyush Choudhary.
+#Unity ID: pchoudh2
+################################################################################################################################
+
 def labelled_data_dict(image_file):
 	f = open(image_file, 'r')
 	artist_to_paintings_dict = {}
@@ -62,6 +67,11 @@ to_process = to_process+extras
 print selected
 print len(to_process)
 
+
+################################################################################################################################
+#This method was created by Mihir Mirajkar.
+#Unity ID: mmmirajk
+################################################################################################################################
 def HausdorffDist(A,B):
 	# Find pairwise distance
 	D_mat = np.sqrt(inner1d(A,A)[np.newaxis].T + inner1d(B,B)-2*(np.dot(A,B.T)))
@@ -83,6 +93,11 @@ def predict(X):
 
 count = 0
 
+
+################################################################################################################################
+#This method was created by Mihir Mirajkar.
+#Unity ID: mmmirajk
+################################################################################################################################
 def sliding_window(inp):
 	global count
 	t = inp[0]
@@ -111,7 +126,10 @@ def sliding_window(inp):
 	return [temp_texton, label]
 
 
-
+################################################################################################################################
+#This method was created by Piyush Choudhary.
+#Unity ID: pchoudh2
+################################################################################################################################
 def main():
 	thread_count = 56
 	texton = []
@@ -140,30 +158,14 @@ def main():
 		texton.append(e[0])
 		labels.append(e[1])
 
-		# temp_texton = [0] * n_clusters
-		# x = 0 
-		# y = 0
-		# while y < t.shape[1]:
-		# 	if y + patch_dim > t.shape[1]:
-		# 		break
-		# 	x = 0
-		# 	while x < t.shape[0]:
-		# 		if x + patch_dim > t.shape[0]:
-		# 			break
-
-		# 		temp = t[x:x + patch_dim, y:y + patch_dim]
-		# 		prediction = predict(temp)
-		# 		print 'prediction', str(count), ':', prediction
-		# 		count += 1
-
-		# 		temp_texton[prediction] += 1
-
-		# 		x += patch_dim
-		# 	y += patch_dim
-
-		# texton.append(temp_texton[:])
 	return texton, labels
 
+
+
+################################################################################################################################
+#The code beyond this point was created by Piyush Choudhary.
+#Unity ID: pchoudh2
+################################################################################################################################
 texton, labels = main()
 
 #print texton
@@ -185,13 +187,6 @@ train_labels = np.array(labels[:int(0.8 * subset_size)])
 test_features = np.array(texton[int(0.8 * subset_size):,])
 test_labels = np.array(labels[int(0.8 * subset_size):])
 
-#train_features = np.array(texton[:-2,])
-#train_labels = np.array(labels[:-2])
-
-#test_features = np.array(texton[-2:,])
-#test_labels = np.array(labels[-2:])
-
-
 print '\n\n######################################33'
 
 # print train_features
@@ -201,12 +196,6 @@ print 'VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVvv'
 
 # print test_features
 print test_labels
-
-#clf = SVC(kernel = 'poly', C = 1.5, degree = 3, random_state=0)
-#clf.fit(train_features, train_labels)
-
-#clf = DecisionTreeClassifier(random_state=0, min_samples_leaf=4)
-#clf.fit(train_features, train_labels)
 
 clf = RandomForestClassifier(random_state=0, n_estimators=12, n_jobs = -1, verbose = 10)
 clf1 = AdaBoostClassifier(n_estimators = 50, learning_rate = 0.05, random_state = 0)
