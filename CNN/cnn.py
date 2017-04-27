@@ -1,3 +1,6 @@
+
+
+
 '''
 http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf
 http://stackoverflow.com/questions/33783672/how-can-i-visualize-the-weightsvariables-in-cnn-in-tensorflow
@@ -8,7 +11,10 @@ http://stackoverflow.com/questions/34340489/tensorflow-read-images-with-labels
 
 
 '''
-
+################################################################################################################################
+#This file was created by Darshak Bhatti.
+#Unity ID: dbhatti
+################################################################################################################################
 
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
@@ -99,6 +105,11 @@ num_channels = 3
 # Number of classes, one class for each of 10 digits.
 num_classes = 1584
 
+################################################################################################################################
+#This method was created by Darshak Bhatti.
+#Unity ID: dbhatti
+################################################################################################################################
+
 def plot_images(images, cls_true, cls_pred=None):
     if len(images) == 0:
         print("no images to show")
@@ -133,13 +144,26 @@ def plot_images(images, cls_true, cls_pred=None):
     # in a single Notebook cell.
     plt.show()
 
+################################################################################################################################
+#This method was created by Darshak Bhatti.
+#Unity ID: dbhatti
+################################################################################################################################
 
 def new_weights(shape):
     return tf.Variable(tf.truncated_normal(shape, stddev=0.05))
 
+################################################################################################################################
+#This method was created by Darshak Bhatti.
+#Unity ID: dbhatti
+################################################################################################################################
+
 def new_biases(length):
     return tf.Variable(tf.constant(0.05, shape=[length]))
 
+################################################################################################################################
+#This method was created by Darshak Bhatti.
+#Unity ID: dbhatti
+################################################################################################################################
 
 def new_conv_layer(input,              # The previous layer.
                    num_input_channels, # Num. channels in prev. layer.
@@ -199,6 +223,10 @@ def new_conv_layer(input,              # The previous layer.
     # because we will plot the weights later.
     return layer, weights
 
+################################################################################################################################
+#This method was created by Darshak Bhatti.
+#Unity ID: dbhatti
+################################################################################################################################
 
 def flatten_layer(layer):
     # Get the shape of the input layer.
@@ -224,6 +252,11 @@ def flatten_layer(layer):
     # Return both the flattened layer and the number of features.
     return layer_flat, num_features
 
+################################################################################################################################
+#This method was created by Darshak Bhatti.
+#Unity ID: dbhatti
+################################################################################################################################
+
 def new_fc_layer(input,          # The previous layer.
                  num_inputs,     # Num. inputs from prev. layer.
                  num_outputs,    # Num. outputs.
@@ -243,6 +276,10 @@ def new_fc_layer(input,          # The previous layer.
 
     return layer
 
+################################################################################################################################
+#This method was created by Darshak Bhatti.
+#Unity ID: dbhatti
+################################################################################################################################
 
 def read_labeled_image_list(image_list_file):
     """Reads a .txt file containing pathes and labeles
@@ -264,6 +301,11 @@ def read_labeled_image_list(image_list_file):
         label = label[1:-1]
         labels.append(int(label))
     return filenames, labels
+
+################################################################################################################################
+#This method was created by Darshak Bhatti.
+#Unity ID: dbhatti
+################################################################################################################################
 
 def read_images_from_disk(input_queue):
     """Consumes a single filename and label as a ' '-delimited string.
