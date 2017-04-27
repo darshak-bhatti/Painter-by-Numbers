@@ -2,8 +2,8 @@
 WRITTEN BY ERICK DRAAYER
 ID: ecdraaye
 
-This code allows us to gather some statstics about the paintings such as how many paintings 
-belong to each artists
+This code preprocesses the dates in the csv files so that they are all numerical and if missing, 
+selects a random number based on other dated works from the artist
 '''
 
 import pandas as pd
