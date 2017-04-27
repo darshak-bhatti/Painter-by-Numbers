@@ -1,3 +1,8 @@
+################################################################################################################################
+#This file was created by Piyush Choudhary.
+#Unity ID: pchoudh2
+################################################################################################################################
+
 import numpy as np
 from datetime import datetime
 import pickle
@@ -16,7 +21,10 @@ random.seed(1)
 train_files = [f for f in glob.glob("patches2/*")]
 #np.set_printoptions(threshold=np.nan)
 
-
+################################################################################################################################
+#This method was created by Mihir Mirajkar
+#Unity ID: mmmirajk
+################################################################################################################################
 def flatten(file):
 	temp_features_flattened = []
 
@@ -25,6 +33,11 @@ def flatten(file):
 	temp_features_flattened.append(t.flatten())
 	return np.array(temp_features_flattened)[0]
 
+	
+################################################################################################################################
+#This method was created by Piyush Choudhary.
+#Unity ID: pchoudh2
+################################################################################################################################
 def populate_features():
 	features = []
 	features_flattened = []
@@ -44,7 +57,10 @@ def populate_features():
 
 features = populate_features()
 
-
+################################################################################################################################
+#This method was created by Mihir Mirajkar.
+#Unity ID: mmmirajk
+################################################################################################################################
 def HausdorffDist(A,B):
 	A = A.reshape(35,35)
 	B = B.reshape(35,35)
@@ -54,6 +70,11 @@ def HausdorffDist(A,B):
 	dH = np.max(np.array([np.max(np.min(D_mat,axis=0)),np.max(np.min(D_mat,axis=1))]))
 	return(dH)
 
+
+################################################################################################################################
+#This method was created by Piyush Choudhary.
+#Unity ID: pchoudh2
+################################################################################################################################
 def make_new_centers(features, centers):
 	to_return = []
 	# print 'centres:', centers
@@ -68,13 +89,19 @@ def make_new_centers(features, centers):
 		# print 'Original:', temp_matrix, '\n##########\nMean:', np.array(to_return), '\n'
 	# print np.array(to_return)
 	return np.array(to_return)
-
+################################################################################################################################
+#This method was created by Piyush Choudhary.
+#Unity ID: pchoudh2
+################################################################################################################################
 def pairwise(inp):
 	features = inp[0]
 	init_centres = inp[1]
 	return pairwise_distances(features, init_centres, metric=HausdorffDist)
 
-
+################################################################################################################################
+#This method was created by Piyush Choudhary.
+#Unity ID: pchoudh2
+################################################################################################################################
 
 def k_means(features):
 	n_centres = 350
@@ -182,7 +209,10 @@ def k_means(features):
 	print 'K_MEANS TIME:', float(time.time()) 
 	- final_start
 	return new_centers
-
+################################################################################################################################
+#The code beyond this point was created by Piyush Choudhary.
+#Unity ID: pchoudh2
+################################################################################################################################
 
 model = k_means(features)
 print model
