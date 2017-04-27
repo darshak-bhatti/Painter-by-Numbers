@@ -1,5 +1,4 @@
 '''
-References
 http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf
 http://stackoverflow.com/questions/33783672/how-can-i-visualize-the-weightsvariables-in-cnn-in-tensorflow
 https://www.youtube.com/watch?v=uO3CMMT459w
@@ -14,12 +13,13 @@ Mihir Mirajkar
 Piyush Choudhary
 Darshak Harisinh Bhatti
 Erick Draayer
+
 '''
 
 
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from sklearn.metrics import confusion_matrix
@@ -32,60 +32,64 @@ import random
 from mlxtend.preprocessing import one_hot
 
 
+
+
+#mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
+
 print "Hello World"
 
 # Convolutional Layer 1.
-filter_size1 = 4          # Convolution filters are 5 x 5 pixels.
+filter_size1 = 5          # Convolution filters are 5 x 5 pixels.
 num_filters1 = 16        # There are 16 of these filters.
 
 # Convolutional Layer 2 + Pool.
-filter_size2 = 4          # Convolution filters are 4 x 4 pixels.
+filter_size2 = 5          # Convolution filters are 5 x 5 pixels.
 num_filters2 = 16         # There are 16 of these filters.
 
 # Convolutional Layer 3.
-filter_size3 = 5
-num_filters3 = 32
+filter_size3 = 5          # Convolution filters are 5 x 5 pixels.
+num_filters3 = 32         # There are 32 of these filters.
 
 # Convolutional Layer 4.
-filter_size4 = 5
-num_filters4 = 32
+filter_size4 = 5          # Convolution filters are 5 x 5 pixels.
+num_filters4 = 32         
 
 # Convolutional Layer 5 + Pool.
-filter_size5 = 5
-num_filters5 = 32
+filter_size5 = 4          # Convolution filters are 4 x 4 pixels.
+num_filters5 = 32         
 
 # Convolutional Layer 6.
-filter_size6 = 5
-num_filters6 = 64
+filter_size6 = 4          # Convolution filters are 5 x 5 pixels.
+num_filters6 = 64         
 
 # Convolutional Layer 7.
-filter_size7 = 5
-num_filters7 = 64
+filter_size7 = 5          # Convolution filters are 5 x 5 pixels.
+num_filters7 = 64         
 
 # Convolutional Layer 8 + Pool.
-filter_size8 = 5
-num_filters8 = 64
+filter_size8 = 5          # Convolution filters are 5 x 5 pixels.
+num_filters8 = 64         
 
 # Convolutional Layer 9.
-filter_size9 = 5
-num_filters9 = 128
+filter_size9 = 5          # Convolution filters are 5 x 5 pixels.
+num_filters9 = 128         
 
 # Convolutional Layer 10.
-filter_size10 = 5
-num_filters10 = 128
+filter_size10 = 5          # Convolution filters are 5 x 5 pixels.
+num_filters10 = 128       
 
 # Convolutional Layer 11 + Pool.
-filter_size11 = 5
-num_filters11 = 128
+filter_size11 = 5          # Convolution filters are 5 x 5 pixels.
+num_filters11 = 128        
 
 # Convolutional Layer 12 + Pool.
-filter_size12 = 5
-num_filters12 = 256
+filter_size12 = 5          # Convolution filters are 5 x 5 pixels.
+num_filters12 = 256        
 
 # Fully-connected layer.
 fc_size = 16384             # Number of neurons in fully-connected layer.
 
-#Resized images are of 256 x 256
+#Images are 256 pixels in each dimension.
 img_size = 256
 
 # Images are stored in one-dimensional arrays of this length.
@@ -94,10 +98,10 @@ img_size_flat = img_size * img_size
 # Tuple with height and width of images used to reshape arrays.
 img_shape = (img_size, img_size)
 
-# Number of colour channels for the images
+# Number of colour channels
 num_channels = 3
 
-# Number of classes, one class for each of 10 digits.
+# Number of classes
 num_classes = 1584
 
 
@@ -114,6 +118,7 @@ def new_conv_layer(input,              # The previous layer.
                    num_filters,        # Number of filters.
                    use_pooling=True):  # Use 2x2 max-pooling.
 
+    # Shape of the filter-weights for the convolution.
     shape = [filter_size, filter_size, num_input_channels, num_filters]
 
     # Create new weights
@@ -122,12 +127,11 @@ def new_conv_layer(input,              # The previous layer.
     # Create new biases
     biases = new_biases(length=num_filters)
 
-    # Create the TensorFlow operation for convolution
     layer = tf.nn.conv2d(input=input,
                          filter=weights,
                          strides=[1, 1, 1, 1],
                          padding='SAME')
-
+                         
     layer += biases
 
     if use_pooling:
@@ -136,19 +140,19 @@ def new_conv_layer(input,              # The previous layer.
                                strides=[1, 2, 2, 1],
                                padding='SAME')
 
-    # Rectified Linear Unit (ReLU).
     layer = tf.nn.relu(layer)
 
     return layer, weights
 
 
 def flatten_layer(layer):
+
     layer_shape = layer.get_shape()
 
     num_features = layer_shape[1:4].num_elements()
 
     layer_flat = tf.reshape(layer, [-1, num_features])
-
+    
     return layer_flat, num_features
 
 def new_fc_layer(input,          # The previous layer.
@@ -177,17 +181,15 @@ def read_labeled_image_list(image_list_file):
        List with all filenames in file image_list_file
     """
     #images_path = "/Users/darshak/PycharmProjects/TensorFlow/preprocessed/"
-    images_path = "./preprocessed/"
+    images_path = "./train/"
     f = open(image_list_file, 'r')
     filenames = []
     labels = []
     for line in f:
         filename, label = line[:-1].split(',')
-        print "Fname and label"
-        print line[:-1]
         filename = filename[1:-1]
         filenames.append(images_path + filename)
-        #label = label[1:-1]
+        label = label[1:-1]
         labels.append(int(label))
     return filenames, labels
 
@@ -205,7 +207,7 @@ def read_images_from_disk(input_queue):
 
 # Reads pathes of images together with their labels
 #filename = "/Users/darshak/refined_art2.csv"
-filename = "./refined_art2_train.csv"
+filename = "./refined_art2_train_f.csv"
 image_list, label_list = read_labeled_image_list(filename)
 images = tf.convert_to_tensor(image_list)
 labels = tf.convert_to_tensor(label_list)
@@ -230,7 +232,7 @@ image_batch, label_batch = tf.train.batch([resized_image, label],
 
 
 #For testing
-filename_test = "./refined_art2_test.csv"
+filename_test = "./refined_art2_test_f.csv"
 image_list_test, label_list_test = read_labeled_image_list(filename_test)
 images_test = tf.convert_to_tensor(image_list_test)
 labels_test = tf.convert_to_tensor(label_list_test)
@@ -252,8 +254,7 @@ resized_image_test = tf.image.resize_images(image_test, [256, 256])
 image_batch_test, label_batch_test = tf.train.batch([resized_image_test, label_test],
                                           batch_size=100)
 
-
-
+                                          
 #x = tf.placeholder(tf.float32, shape=[None, img_size_flat], name='x')
 
 x_image = tf.placeholder(tf.float32, shape = [None, img_size, img_size, 3], name = "x_image")
@@ -367,6 +368,7 @@ layer_conv11, weights_conv11 = \
 
 print "layer_conv11", layer_conv11
 
+
 layer_conv121, weights_conv121 = \
     new_conv_layer(input=layer_conv11,
                    num_input_channels=num_filters11,
@@ -385,17 +387,15 @@ layer_conv122, weights_conv122 = \
 
 print "layer_conv122", layer_conv122
 
+
 layer_conv12, weights_conv12 = \
     new_conv_layer(input=layer_conv122,
-                   num_input_channels=num_filters11,
+                   num_input_channels=num_filters12,
                    filter_size=filter_size2,
                    num_filters=num_filters12,
                    use_pooling=True)
 
 print "layer_conv12", layer_conv12
-
-
-
 
 
 layer_flat, num_features = flatten_layer(layer_conv12)
@@ -411,16 +411,16 @@ layer_fc1 = new_fc_layer(input=layer_flat,
 print "layer_fc1", layer_fc1
 
 layer_fc11 = new_fc_layer(input=layer_fc1,
-                         num_inputs=layer_fc1,
+                         num_inputs=16384,
                          num_outputs=2048,
-                         use_relu=False)
+                         use_relu=True)
 
 print "layer_fc11", layer_fc11
 
 layer_fc12 = new_fc_layer(input=layer_fc11,
-                         num_inputs=layer_fc11,
+                         num_inputs=2048,
                          num_outputs=1584,
-                         use_relu=False)
+                         use_relu=True)
 
 print "layer_fc12", layer_fc12
 
@@ -428,9 +428,10 @@ print "layer_fc12", layer_fc12
 layer_fc2 = new_fc_layer(input=layer_fc12,
                          num_inputs=1584,
                          num_outputs=num_classes,
-                         use_relu=False)
+                         use_relu=True)
 
 print "layer_fc2", layer_fc2
+
 
 y_pred = tf.nn.softmax(layer_fc2)
 
@@ -462,9 +463,7 @@ threads = tf.train.start_queue_runners(sess=session, coord=coord)
 
 
 #Test the trained net
-
-accuracy_flag  = 0
-
+f = open('results', 'w')
 
 
 
@@ -473,42 +472,36 @@ for i in range(1,200000):
         # Get a batch of training examples.
         # x_batch now holds a batch of images and
         # y_true_batch are the true labels for those images.
-        print " ..", i
+        #print " ..", i
         x_batch, label_array = session.run([image_batch, label_batch])
         #print "x_batch :: ", x_batch
         #print "y_true_batch :: ", y_true_batch
         #y_true_batch = np.zeros((100, 43))
         #y_true_batch[np.arange(100), label_array] = 1
-        print "LA ",label_array
+        #print "LA ",label_array
 
         y_true_batch = one_hot(label_array, num_labels=1584, dtype='int')
 
         # print "x_batch :: ", x_batch
         #print "y_true_batch :: ", y_true_batch
 
+        # Put the batch into a dict with the proper names
+        # for placeholder variables in the TensorFlow graph.
         feed_dict_train = {x_image: x_batch,
                            y_true: y_true_batch}
 
-        print "Running Optimizer ... "
+        # Run the optimizer using this batch of training data.
+        # TensorFlow assigns the variables in feed_dict_train
+        # to the placeholder variables and then runs the optimizer.
+        print "Running Optimizer ... ", i
         session.run(optimizer, feed_dict=feed_dict_train)
 
 
         # Print status every 100 iterations.
-        if i % 15 == 0:
+        if i % 100 == 0:
+	    print "\n\nTrain : "
             # Calculate the accuracy on the training-set.
             acc = session.run(accuracy, feed_dict=feed_dict_train)
-
-            if(acc<80):
-                accuracy_flag = 0
-
-            if (acc > 90):
-                accuracy_flag += 1
-
-
-            if(accuracy_flag  > 5):
-                break
-
-
 
             # Message for printing.
             msg = "Optimization Iteration: {0:>6}, Training Accuracy: {1:>6.1%}"
@@ -516,11 +509,26 @@ for i in range(1,200000):
             # Print it.
             print(msg.format(i + 1, acc))
 
+            print "\n\n Test : "
 
+	    x_batch_test, label_array_test = session.run([image_batch_test, label_batch_test])
+
+            y_true_batch_test = one_hot(label_array_test, num_labels=1584, dtype='int')
+            feed_dict_test = {x_image: x_batch_test, y_true: y_true_batch_test}
+
+
+
+            acct = session.run(accuracy, feed_dict=feed_dict_test)
+
+            msg = "Iteration: {0:>6}, Test Accuracy: {1:>6.1%}"
+
+            # Print
+            print(msg.format(i + 1, acct))
+
+	    f.write(str(acc) + ", " + str(acct) + "\n")
 
 
 #Test the trained net
-print "Hello World, Test"
 for j in range(0, 30):
     print " ..", j
     x_batch_test, label_array_test = session.run([image_batch_test, label_batch_test])
@@ -535,14 +543,10 @@ for j in range(0, 30):
     acc = session.run(accuracy, feed_dict=feed_dict_test)
 
     # Message for printing.
-    msg = "Optimization Iteration: {0:>6}, Test Accuracy: {1:>6.1%}"
+    msg = "Iteration: {0:>6}, Test Accuracy: {1:>6.1%}"
 
     # Print
     print(msg.format(i + 1, acc))
-
-    #print "Class Prediction"
-    #print cls_pred
-
 
 
 
