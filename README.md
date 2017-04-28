@@ -15,5 +15,11 @@ The authors of each method of implementations are as follows:
 1. Texton Based Analysis - Piyush Choudhary(pchoudh2@ncsu.edu), Mihir Mirajkar(mmmirajk@ncsu.edu)
 2. CNN - Darshak Bhatti (dbhatti@ncsu.edu)
 3. RandomForest Classifier and KNN - Erick Draayer (ecdraaye@ncsu.edu)
+   *The RandomForsest Classifier was provided by the creator of the Kaggle competition, we added slight modifications 
+   to it for experiments. 
+
+Majority of Poster Work and Written Report were by Phillip Hardy and John Gray
+   
+
 
 

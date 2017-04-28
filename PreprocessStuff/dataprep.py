@@ -17,17 +17,22 @@ def isNaN(num):
 
 info = pd.read_csv('all_data_info.csv')
 dates = info.date
+artists = info.artist
+artist_dates = {artists[k]: [] for k in range(len(artists))}
+
 i = 0
 for x in dates:
   if isinstance(x, basestring):
-    print x
-    info.date[i] = re.search(r'\d+', x).group()
-    print re.search(r'\d+', x).group()
+    dates[i] = re.search(r'\d+', x).group()
+    artist_dates[artists[i]].append(dates[i])
   else:
-    print 0
+    dates[i] = 0
+    artist_dates[artists[i]].append(dates[i])
   i = i + 1
-  
 
-
-
+print artist_dates
+newdata = info[['artist']]
+dates = info.date
+newdata['sameArtist'] = dates
+newdata.to_csv('newdates.csv', index=False)
 
